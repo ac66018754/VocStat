@@ -1,0 +1,39 @@
+這邊是我的學習筆記:
+4/2:
+    先查了一下chrome extension要如何製作，它大概是一個什麼樣的東西之後，
+    再想了一下要做什麼樣子的extension，最後決定做這ㄍ東西，
+    跟chatGPT討論了一下功能後，
+    最初的設計全部交由給它，
+    也就是ver1.0的部分。
+    ver1.0的紀錄如下:(也許有錯)
+    首先是架構:
+    VocStat:
+        -icons:
+            放各種圖片們
+        -contentScript.js
+        -manifest.json
+        -popup.html
+        -popup.js
+    先從manifest.json講起，因為它就等於是extension的入口:
+        1.manifest_version: 指定Chrome擴充功能的manifest版本。目前版本為3。
+        2.name: 擴充功能的名稱，這裡為VocStat。
+        3.version: 擴充功能的版本號，這裡是1.0。
+        4.description: 描述擴充功能的功能。
+        //下面的東西比較重要，每個都額外筆記一下:
+        5.permissions: 列出擴充功能所需的權限，包括存儲、激活的標籤頁以及上下文菜單。
+                                             "storage" "activeTab"   "contextMenus"                        
+        6.action: 定義擴充功能的點擊行為，這裡指定彈出窗口的HTML文件和圖標。
+                                                    "popup.html"
+        7.content_scripts: 定義要在匹配的網頁中運行的腳本。
+                "matches": ["*://*/*"],這個extension可以在哪些條件的URL下運行，*為通配符號
+                "js": ["contentScript.js"]表示要運行的腳本是哪一個
+        8.icons: 指定擴充功能的圖標尺寸和文件路徑。
+    所以，contentScripts就是要運行的功能
+    popup.html就是我點擊extension的icon會跳出來的小小網頁
+    popup.js則是那個網頁的邏輯。
+    ----------------------------------------------------------------
+    備註:上面只是隨意記一下，還沒有講到options跟background喔，
+    而且content_scripts那邊其實已經刪掉了(有bug)
+    然後目前這一版(ver1.0)算是可以用，
+    但因為DeepL翻譯串不起來，
+    所以是沒有翻譯功能的喔
