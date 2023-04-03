@@ -45,17 +45,43 @@ async function addToWordList(word) {
     });
 }
 
-//串接DeepL的API
+//串接Azure的API
 async function translateWord(word) {
-    const { apiKey } = await new Promise((resolve) => chrome.storage.sync.get('apiKey', resolve));
+    const { apiKey } = await new Promise((resolve) =>
+      chrome.storage.sync.get('apiKey', resolve)
+    );
   
     if (!apiKey) {
       console.error('API Key is not set. Please set it in the extension options.');
       return;
     }
   
-    const url = `https://api.deepl.com/v2/translate?target_lang=ZH&auth_key=${apiKey}&text=${encodeURIComponent(word)}`;
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.translations[0].text;
-}
+    const endpoint = 'https://api.cognitive.microsofttranslator.com';
+    const location = 'eastasia'; // 請將此替換為您的資源所在位置，例如：'eastus'。
+  
+    const url = `${endpoint}/translate?api-version=3.0&to=zh-Hant&textType=plain&includeAlignment=false&includeSentenceLength=false&profanityAction=NoAction&from=en`;
+  
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Ocp-Apim-Subscription-Key', apiKey);
+    headers.append('Ocp-Apim-Subscription-Region', location);
+  
+    const response = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify([{ Text: word }]),
+    });
+  
+    if (!response.ok) {
+      console.error(`Azure Translator API returned an error: ${response.status}`);
+      return;
+    }
+  
+    try {
+      const data = await response.json();
+      return data[0].translations[0].text;
+    } catch (error) {
+      console.error('Error parsing JSON data from Azure Translator API:', error);
+    }
+  }
+
