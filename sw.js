@@ -1,15 +1,25 @@
-// 創建上下文菜單項
+//當page載入完成後，
 chrome.runtime.onInstalled.addListener(() => {
+    //1.創建上下文菜單項
     chrome.contextMenus.create({
         id: 'addWord',
         title: '添加到生詞本',
-        contexts: ['selection']
+        contexts: ['selection'],
+        type:'checkbox'
+    });
+	chrome.contextMenus.create({
+        id: 'translate',
+        title: '翻譯',
+        contexts: ['selection'],
+		type: 'checkbox'
     });
 });
 
 // 監聽上下文菜單項被點擊的事件
 chrome.contextMenus.onClicked.addListener((info, tab) => {
+    //如果點擊的是我們extension設置的，也就是id=addWord的話
     if (info.menuItemId === 'addWord') {
+        //讀取出選中的文字，並去頭尾空白，並送往我們定義的addToWordList()函數
         const selectedText = info.selectionText.trim();
         if (selectedText) {
             addToWordList(selectedText);
@@ -84,4 +94,4 @@ async function translateWord(word) {
       console.error('Error parsing JSON data from Azure Translator API:', error);
     }
   }
-
+  

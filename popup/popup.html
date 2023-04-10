@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../bootstrap5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="popup.css">
+    <title>VocStat Popup</title>
+</head>
+<body>
+    <div class="header">
+        <h1>生詞本</h1>
+    </div>
+    <table class="table" >
+        <thead>
+            <tr>
+                <th scope="col">英文生詞</th>
+                <th scope="col">中文意思(繁體)</th>
+                <th scope="col">被記錄次數</th>
+                <th scope="col">備註</th>
+                <th scope="col">操作</th>
+            </tr>
+        </thead>
+        <tbody id="wordList">
+            <!-- 動態生成生詞本內容 -->
+        </tbody>
+    </table>
+    <script src="popup.js"></script>
+    <script src="../bootstrap5.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
